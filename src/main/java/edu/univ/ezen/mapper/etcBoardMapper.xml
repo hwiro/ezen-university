@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.univ.ezen.mapper.etcBoardMapper">
+ 	<select id="listEtcBoard" resultType="etcBoardDTO">
+ 		select etc_board_code, subject, writer, reg_date, thumb, image, readcount from etc_board order by etc_board_code desc
+ 	</select>
+ 	
+ 	<select id="EtcCountBoard" resultType="Integer">
+ 		select count(*) from etc_board
+ 	</select>
+ 	
+ 	<select id="EtcCountBoardThumb" resultType="Integer">
+ 		select count(*) from etc_board where thumb >= 10
+ 	</select>
+ 	
+ 	<select id="EtcCountBoardFind" parameterType="map" resultType="Integer">
+ 		select count(*) from etc_board where ${search} = #{searchString}
+ 	</select>
+ 	
+ 	<select id="listEtcBoardThumb" resultType="etcBoardDTO">
+ 		select etc_board_code, subject, writer, reg_date, thumb, image, readcount from etc_board where thumb >= 10 order by etc_board_code desc
+ 	</select>
+ 	
+ 	<insert id="EtcinsertBoard" parameterType="etcBoardDTO">
+ 		insert into etc_board values(etc_board_seq.nextval, #{subject}, #{writer}, #{writer_id}, #{image}, #{content}, sysdate, 0, #{ip}, 0) 
+ 	</insert>
+ 	
+ 	<delete id="EtcdeleteBoard" parameterType="int">
+ 		delete from etc_board where etc_board_code = #{etc_board_code}
+ 	</delete>
+ 	
+ 	<select id="getEtcBoard" parameterType="int" resultType="etcBoardDTO">
+ 		select * from etc_board where etc_board_code = #{etc_board_code}
+ 	</select>
+ 	
+ 	<update id="EtcplusReadCount" parameterType="int">
+ 		update etc_board set readcount=readcount+1 where etc_board_code = #{etc_board_code}
+ 	</update>
+ 	
+ 	<update id="EtcplusThumb" parameterType="int">
+ 		update etc_board set thumb=thumb+1 where etc_board_code = #{etc_board_code}
+ 	</update>
+ 	
+ 	<update id="EtcupdateBoard" parameterType="etcBoardDTO">
+ 		update etc_board set subject= #{subject}, writer = #{writer}, image = #{image}, content = #{content} where etc_board_code = #{etc_board_code}
+ 	</update>
+ 	
+ 	<select id="EtcfindBoard" parameterType="map" resultType="etcBoardDTO"> 
+ 		select * from etc_board where ${search} like #{searchString}
+ 	</select>
+ 	
+ 	<insert id="EtcinsertReply" parameterType="etcBoardReplyDTO">
+	 	insert into etc_board_reply values(etc_board_reply_seq.nextval, #{writer}, #{writer_id}, #{content}, sysdate, #{ip}, #{ref_group})
+ 	</insert>
+ 	
+	<delete id="EtcdeleteReply" parameterType="int">
+ 		delete from etc_board_reply where etc_board_reply_code = #{etc_board_reply_code}
+ 	</delete>
+ 	
+ 	<delete id="EtcdeleteReplyAll" parameterType="int">
+ 		delete from etc_board_reply where ref_group = #{ref_group}
+ 	</delete>
+ 	
+ 	<update id="EtcupdateReply" parameterType="etcBoardReplyDTO">
+ 		update etc_board_reply set content = #{content} where etc_board_reply_code = #{etc_board_reply_code}
+ 	</update>
+ 	
+ 	<select id="listEtcReply" parameterType="Integer" resultType="etcBoardReplyDTO">
+ 		select * from etc_board_reply where ref_group = #{ref_group} order by etc_board_reply_code desc
+ 	</select>
+ 	
+ 	<select id="countEtcReply" parameterType="Integer" resultType="Integer">
+ 		select count(*) from etc_board_reply where ref_group = #{ref_group}
+ 	</select>
+ 	
+ 	<!-- 이하 유저 차단관련 sql문 -->
+ 	<insert id="insertBlacklist" parameterType="userBlacklistDTO">
+ 		insert into user_blacklist values(user_blacklist_seq.nextval, #{student_id}, #{board})
+ 	</insert>
+ 	
+ 	<select id="getBlacklist" parameterType="String" resultType="userBlacklistDTO">
+ 		select * from user_blacklist where student_id = #{student_id}
+ 	</select>
+ 	
+ 	<select id="getBlacklistAll" resultType="userBlacklistDTO">
+ 		select * from user_blacklist
+ 	</select>
+ 	
+ 	<delete id="delBlacklist" parameterType="String">
+ 		delete from user_blacklist where student_id = #{student_id}
+ 	</delete>
+ 	
+</mapper>

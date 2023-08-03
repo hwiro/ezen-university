@@ -1,0 +1,88 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<!-- contentBoard.jsp -->
+<head>
+<style>
+.card-title2 {
+  padding: 10px 0 15px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #012970;
+  font-family: "Poppins", sans-serif;
+}
+</style>
+<link href="resources/majorBoard_css/assets/css/main.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
+</head>
+<%@ include file="../top.jsp"%>
+<body>
+<div class="card">
+	<div class="card-body">
+	<div class="container">
+		<div class="row">
+				<article class="box page-content">
+					<header>
+						<h3 style="font-family: 'Orbit', sans-serif;">${getBoard.subject }</h3>
+						<c:if test="${getBoard.writer_id eq sessionScope.id }">
+						<a class="icon" href="#" data-bs-toggle="dropdown"
+							aria-expanded="false"
+							style="position: absolute; right: 30px; top: 50px;">
+							 <i	class="bi bi-three-dots"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+							style>
+							<li class="dropdown-header text-start">
+								<h6>편집</h6>
+							</li>
+							<li><a class="dropdown-item" href="update_notice_board.do?major_notice_board_code=${getBoard.major_notice_board_code}">수정</a>
+							</li>
+							<li><a class="dropdown-item" href="delete_notice_board.do?major_notice_board_code=${getBoard.major_notice_board_code}&image=${getBoard.image }">삭제</a>
+							</li>
+						</ul>
+						</c:if>
+						<ul class="meta">
+							<li style="font-family: 'Orbit', sans-serif;"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+									height="16" fill="currentColor" class="bi bi-calendar-heart"
+									viewBox="0 0 16 16">
+ 							<path fill-rule="evenodd"
+										d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM1 14V4h14v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1Zm7-6.507c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
+							</svg>&nbsp;&nbsp;${getBoard.reg_date }</li>
+							<li style="font-family: 'Orbit', sans-serif;"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+									height="16" fill="currentColor" class="bi bi-person"
+									viewBox="0 0 16 16">
+  								<path
+										d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+								</svg>&nbsp;&nbsp;${getBoard.writer }</li>
+						</ul>
+					</header>
+					<section>
+						<div align="center">
+						<c:if test="${getBoard.image ne 'none' }">
+							<img src="${path}/${getBoard.image}" width="50%" height="50%">
+						</c:if>
+							<p style="font-family: 'Orbit', sans-serif;">${getBoard.content }</p>
+						</div>
+						<div>
+						첨부파일 : <br>
+						<c:forEach var="dto" items="${listFile}">
+							<a href="noticeBoard_download.do?major_notice_board_code=${getBoard.major_notice_board_code }&name=${dto.save_name }">${dto.original_name }</a>
+						</c:forEach>
+						</div>
+					</section>
+				</article>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script src="resources/majorBoard_css/assets/js/jquery.min.js"></script>
+<script src="resources/majorBoard_css/assets/js/jquery.dropotron.min.js"></script>
+<script src="resources/majorBoard_css/assets/js/jquery.scrolly.min.js"></script>
+<script src="resources/majorBoard_css/assets/js/browser.min.js"></script>
+<script src="resources/majorBoard_css/assets/js/breakpoints.min.js"></script>
+<script src="resources/majorBoard_css/assets/js/util.js"></script>
+<script src="resources/majorBoard_css/assets/js/main2.js"></script>
+<%@ include file="../bottom.jsp"%>

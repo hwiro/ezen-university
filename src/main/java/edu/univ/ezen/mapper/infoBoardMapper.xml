@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.univ.ezen.mapper.infoBoardMapper">
+	<select id="info_listBoard" parameterType="String" resultType="infoBoardDTO">
+ 		select info_code, info_title, writer, reg_date, readcount, image from info_board where type = #{type} order by info_code desc
+	</select>
+ 	
+ 	<select id="info_listBoardAll" resultType="infoBoardDTO">
+ 		select info_code, info_title, writer, reg_date, readcount, image from info_board order by info_code desc
+	</select>
+ 	
+ 	<insert id="info_insertBoard" parameterType="infoBoardDTO">
+ 		insert into info_board values(info_board_seq.nextval, #{info_title}, #{writer}, #{content}, sysdate, 0, #{image}, #{type}) 
+ 	</insert>
+ 	
+ 	<delete id="info_deleteBoard"  parameterType="int">
+ 		delete from info_board where info_code = #{info_code}
+ 	</delete>
+ 	
+ 	<select id="info_getBoard" parameterType="int" resultType="infoBoardDTO">
+ 		select * from info_board where info_code = #{info_code}
+ 	</select>
+ 	
+ 	<update id="info_plusReadCount" parameterType="int">
+ 		update info_board set readcount=readcount+1 where info_code = #{info_code}
+ 	</update>
+ 	
+ 	<update id="info_updateBoard" parameterType="infoBoardDTO">
+ 		update info_board set info_title = #{info_title}, content = #{content}, image = #{image} where info_code = #{info_code}
+ 	</update>
+ 	
+ 	<select id="info_findBoard" parameterType="map" resultType="infoBoardDTO"> 
+ 		select * from info_board where ${search} like #{searchString}
+ 	</select>
+ 	
+ 	<select id="info_countBoard" parameterType="String" resultType="int"> 
+ 		select count(*) from info_board where type = #{type}
+ 	</select>
+ 	
+ 	<select id="info_countBoardAll" resultType="int"> 
+ 		select count(*) from info_board
+ 	</select>
+ 	
+ 	<select id="info_countBoardSearch" parameterType="map" resultType="int"> 
+ 		select count(*) from info_board where ${search} = #{searchString}
+ 	</select>
+ 	
+ 	<select id="info_getRecentNum" resultType="Integer">
+ 		select max(info_code) from info_board
+ 	</select>
+ 	
+</mapper>

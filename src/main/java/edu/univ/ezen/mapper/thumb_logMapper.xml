@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.univ.ezen.mapper.thumb_logMapper">
+	<insert id="thumblog_Insert" parameterType="thumb_logDTO">
+		insert into thumb_log values(thumb_log_seq.nextval, #{code}, #{id})
+	</insert>
+	
+	<select id="thumblog_getlog" parameterType="Map" resultType="thumb_logDTO">
+		select * from thumb_log where code=#{code} and id=#{id}
+	</select>
+	
+	<delete id="thumblog_delPost" parameterType="Integer">
+		delete from thumb_log where code=#{code}
+	</delete>
+</mapper>

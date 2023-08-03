@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 
+<mapper namespace="edu.univ.ezen.mapper.bookMapper">
+
+	<insert id="insertBook" parameterType="bookDTO">
+		insert into book values(#{book_id}, #{genre}, #{book_title}, #{author}, #{publisher}, 
+		#{image}, #{book_intro}, current_timestamp, #{readcount})
+	</insert>
+	
+	<select id="listBook" resultType="bookDTO">
+		select book_id, genre, book_title, author, publisher, image, regdate, readcount from book
+	</select>
+	
+	<select id="listBookImage" resultType="bookDTO">
+		select book_id, image, genre from book order by readcount desc
+	</select>
+	
+ 	<select id="listBookImage_getGenre" parameterType="String" resultType="bookDTO">
+ 		select image, book_title, genre, book_id, author from book where genre = #{genre}
+ 	</select>
+ 	
+	<update id="book_plusReadCount" parameterType="String">
+ 		update book set readcount=readcount+1 where book_id = #{book_id}
+ 	</update>
+ 	
+	
+	<update id="editBook" parameterType="bookDTO">
+		update book set genre=#{genre}, book_title=#{book_title}, 
+		author=#{author}, publisher=#{publisher}, image=#{image}, book_intro=#{book_intro}, 
+		regdate=current_timestamp, readcount=#{readcount} where book_id=#{book_id}
+	</update>
+	
+	<delete id="deleteBook" parameterType="String">
+		delete from book where book_id=#{book_id}
+	</delete>
+	
+	<select id="getBook" parameterType="String" resultType="bookDTO">
+		select * from book where book_id=#{book_id}
+	</select>
+	
+	<select id="findBook" parameterType="java.util.Map" resultType="bookDTO">
+		select * from book where ${search} like #{searchString}
+	</select>
+
+	<select id="countBook" resultType="Integer">
+		select count(*) from book
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+

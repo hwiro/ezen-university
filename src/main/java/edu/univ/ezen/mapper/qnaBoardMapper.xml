@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.univ.ezen.mapper.qnaBoardMapper">
+ 	<select id="listQnaBoard" resultType="qnaBoardDTO">
+ 		select * from qna_board order by qna_code desc
+ 	</select>
+ 	
+ 	<select id="listQnaBoardSearch" resultType="qnaBoardDTO">
+ 		select * from qna_board where ${search} like #{searchString} order by qna_code desc
+ 	</select>
+ 	
+ 	<select id="CountQnaBoard" resultType="Integer">
+ 		select count(*) from qna_board
+ 	</select>
+ 	
+ 	<select id="CountQnaBoardSearch" parameterType="map" resultType="Integer">
+ 		select count(*) from qna_board where ${search} like #{searchString}
+ 	</select>
+ 	
+ 	<insert id="InsertQnaBoard" parameterType="qnaBoardDTO">
+ 		insert into qna_board values(qna_board_seq.nextval, #{qna_title}, #{content}) 
+ 	</insert>
+ 	
+ 	<delete id="DeleteQnaBoard" parameterType="int">
+ 		delete from qna_board where qna_code = #{qna_code}
+ 	</delete>
+ 	
+ 	<select id="GetQnaBoard" parameterType="int" resultType="qnaBoardDTO">
+ 		select * from qna_board where qna_code = #{qna_code}
+ 	</select>
+ 	
+ 	<update id="UpdateQnaBoard" parameterType="qnaBoardDTO">
+ 		update qna_board set qna_title = #{qna_title}, content = #{content} where qna_code = #{qna_code}
+ 	</update>
+</mapper>

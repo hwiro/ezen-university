@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.univ.ezen.mapper.deptMapper">
+
+	<insert id="insertDept" parameterType="deptDTO">
+		insert into dept values(#{dept_id}, #{dept_name}, #{dept_head}, #{dept_tel}, 
+		#{dept_location}, #{issingle})
+	</insert>
+	
+	<select id="listDept" resultType="deptDTO">
+		select dept_id, dept_name, dept_head, issingle from dept
+	</select>
+	
+	<select id="listDeptName" resultType="deptDTO">
+		select dept_id, dept_name from dept
+	</select>
+	
+	<delete id="deleteDept" parameterType="String">
+		delete from dept where dept_id=#{dept_id}
+	</delete>
+	
+	<select id="getDept" parameterType="String" resultType="deptDTO">
+		select * from dept where dept_id=#{dept_id}
+	</select>
+
+</mapper>

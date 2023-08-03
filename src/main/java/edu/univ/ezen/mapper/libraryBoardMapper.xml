@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.univ.ezen.mapper.libraryBoardMapper">
+ 	<select id="liblistBoard" resultType="libraryBoardDTO">
+ 		select * from lib_board order by lib_board_code desc
+ 	</select>
+ 	
+ 	<insert id="insertBoard" parameterType="libraryBoardDTO">
+ 		insert into lib_board values(lib_board_seq.nextval, #{subject}, #{writer}, #{content}, sysdate, 0, ,#{filename}, #{image}) 
+ 	</insert>
+ 	
+ 	<delete id="deleteBoard" parameterType="int">
+ 		delete from lib_board where lib_board_code = #{lib_board_code}
+ 	</delete>
+ 	
+ 	<select id="libgetBoard" parameterType="int" resultType="libraryBoardDTO">
+ 		select * from lib_board where lib_board_code = #{lib_board_code}
+ 	</select>
+ 	
+ 	<update id="libPlusReadCount" parameterType="int">
+ 		update lib_board set readcount=readcount+1 where lib_board_code = #{lib_board_code}
+ 	</update>
+ 	
+ 	<update id="updateBoard" parameterType="libraryBoardDTO">
+ 		update lib_board set subject= #{subject}, writer = #{writer}, content = #{content}, filename = #{filename}, image = #{image} where lib_board_code = #{lib_board_code}
+ 	</update>
+ 	
+ 	<select id="libfindBoard" parameterType="map" resultType="libraryBoardDTO"> 
+ 		select * from lib_board where ${search} like #{searchString}
+ 	</select>
+ 	
+ 	<select id="countBoard" resultType="Integer">
+ 		select count(*) from lib_board
+ 	</select>
+</mapper>

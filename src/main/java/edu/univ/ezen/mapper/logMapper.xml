@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ <mapper namespace="edu.univ.ezen.mapper.logMapper">
+	<!-- Inlog기능 -->
+	<select id="listLog" resultType="inLogDTO">
+		select * from user_log order by num desc
+	</select>
+	
+	<insert id="insertLog" parameterType="inLogDTO">
+		insert into user_log values(user_log_seq.nextval, #{id}, current_timestamp, #{ip})
+	</insert>
+	
+	<delete id="deleteLog">
+		delete from user_log 
+	</delete>
+	
+	<select id="countLog" resultType="Integer">
+		select count(*) from user_log
+	</select>
+	
+	<!-- 수정로그 기능 -->
+	<select id="listEdit" resultType="editLogDTO">
+		select * from edit_log order by num desc
+	</select>
+	
+	<insert id="insertEdit" parameterType="editLogDTO">
+		insert into edit_log values(edit_log_seq.nextval,  #{id}, #{content}, current_timestamp, #{memo})
+	</insert>
+	
+	<delete id="deleteEdit" >
+		delete from edit_log 
+	</delete>
+	
+	<select id="countELog" resultType="Integer">
+		select count(*) from edit_log
+	</select>
+
+ </mapper>

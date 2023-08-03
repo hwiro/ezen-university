@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.univ.ezen.mapper.userNoticeMapper">
+	<insert id="insertUserNotice" parameterType="userNoticeDTO">
+		insert into user_notice values(user_notice_seq.nextval, #{student_id}, #{notice}, #{url})
+	</insert>
+	
+	<select id="getUserNotice" parameterType="String" resultType="userNoticeDTO">
+		select * from user_notice where student_id = #{student_id}
+	</select>
+	
+	<delete id="deleteUserNotice" parameterType="String">
+		delete from user_notice where url = #{url}
+	</delete>
+	
+	<delete id="deleteUserNotice_getStu" parameterType="String">
+		delete from user_notice where student_id = #{student_id}
+	</delete>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.univ.ezen.mapper.accAdminMapper">
+
+	<insert id="adminInsert" parameterType="accountAdminDTO">
+		insert into admin_acc values(#{admin_id}, #{admin_pw}, #{name}, #{authority_level})
+	</insert>
+	
+	<select id="adminList" resultType="accountAdminDTO">
+		select admin_id, name, authority_level from admin_acc
+	</select>
+
+	<update id="adminUpdate" parameterType="accountAdminDTO">
+		update admin_acc set admin_pw=#{admin_pw}, name=#{name}, 
+		authority_level=#{authority_level} where admin_id=#{admin_id}
+	</update>
+	
+	<delete id="adminDelete" parameterType="String">
+		delete from admin_acc where admin_id=#{admin_id}
+	</delete>
+	
+	<select id="adminGet" parameterType="String" resultType="accountAdminDTO">
+		select * from admin_acc where admin_id=#{admin_id}
+	</select>
+
+</mapper>

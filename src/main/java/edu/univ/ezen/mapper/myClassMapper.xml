@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="edu.univ.ezen.mapper.classMapper">
+ 
+ 	<select id = "listLecStu" parameterType="String" resultType="MyClassDTO">
+		select a.student_id, b.my_credit from student_acc a inner join my_class b on a.student_id = b.student_id where b.class_code = #{class_code}
+	</select>
+ 	
+ 	<select id="listMyClass" parameterType="String" resultType="MyClassDTO">
+ 		select * from my_class where student_id=#{student_id}
+ 	</select>
+ 	
+ 	<select id="checkMyClass" parameterType="map" resultType="MyClassDTO">
+ 		select * from my_class where student_id=#{student_id} and class_code=#{class_code}
+ 	</select>
+ 	
+ 	<select id="semListMyClass" parameterType="map" resultType="MyClassDTO">
+ 		select * from my_class where student_id=#{student_id} and semester=#{semester}
+ 	</select>
+ 	
+ 	<insert id="insertMyClass" parameterType="MyClassDTO">
+ 		insert into my_class values(my_class_seq.nextval, #{student_id}, #{class_code}, #{teacher_name}, #{class_name}, #{class_credit}, #{my_credit}, #{semester}, #{course}, #{onday}, #{ontime})
+ 	</insert>
+ 	
+ 	<delete id="deleteMyClass" parameterType="map">
+ 		delete from my_class where student_id=#{student_id} and class_code=#{class_code}
+ 	</delete>
+ 	
+ 	<delete id="deleteAllClass" parameterType="map">
+ 		delete from my_class where class_code=#{class_code} and semester=#{semester}
+ 	</delete>
+ 	
+ 	<select id="getMyClass" parameterType="String" resultType="MyClassDTO">
+ 		select * from my_class where student_id = #{student_id} and class_code = #{class_code}
+ 	</select>
+ 	
+ 	<update id="setMyCredit" parameterType="int" >
+ 		update my_class set my_credit = #{my_credit} where student_id = #{student_id} and class_code = #{class_code}
+ 	</update>
+ 	
+ 	<select id="getMyCredit" parameterType="String" resultType="int">
+ 		select my_credit from my_class where student_id = #{student_id} and class_code = #{class_code}
+ 	</select>
+ </mapper>

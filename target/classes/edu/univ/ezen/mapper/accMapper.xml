@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.univ.ezen.mapper.accMapper">
+
+	<!-- 학생정보 수정 sql문 -->
+	<insert id="studentInsert" parameterType="accountStudentDTO">
+		insert into student_acc values(#{student_id}, #{student_pw}, #{name}, #{dept}, 
+		#{grade}, #{total_credit}, #{birthdate}, #{tel}, #{address}, #{status}, 
+		sysdate, #{type}, #{college}, #{email})
+	</insert>
+	
+	<select id="studentList" resultType="accountStudentDTO">
+		select student_id, name, dept, grade, total_credit, tel, status, indate from student_acc
+	</select>
+	
+	<select id="studentFind" parameterType="String" resultType="accountStudentDTO">
+		select * from student_acc where student_id like #{searchString}
+	</select>
+	
+	<select id="studentFindByEmail" parameterType="String" resultType="accountStudentDTO">
+		select student_id, student_pw, name from student_acc where email = #{email}
+	</select>
+	
+	<select id="countStudent" resultType="int">
+		select count(*) from student_acc
+	</select>
+	
+	<update id="studentUpdate" parameterType="accountStudentDTO">
+		update student_acc set student_pw=#{student_pw}, dept=#{dept}, grade=#{grade}, 
+		birthdate=#{birthdate}, tel=#{tel}, address=#{address}, status=#{status}, email=#{email}
+		where student_id=#{student_id}
+	</update>
+	
+	<update id="student_pw_Update" parameterType="map">
+		update student_acc set student_pw=#{student_pw} where student_id=#{student_id}
+	</update>
+	
+	<delete id="studentDelete" parameterType="String">
+		delete from student_acc where student_id=#{student_id}
+	</delete>
+	
+	<select id="studentGet" parameterType="String" resultType="accountStudentDTO">
+		select * from student_acc where student_id=#{student_id}
+	</select>
+	
+	<update id="studentPlusCredit" parameterType="map">
+		update student_acc set total_credit=total_credit+#{credit} 
+		where student_id=#{student_id}
+	</update>
+	
+	<update id="studentPlusGrade" parameterType="map">
+		update student_acc set grade=#{grade} where student_id=#{student_id}
+	</update>
+	
+	<select id = "listLecStu2" parameterType="String" resultType="accountStudentDTO">
+		select a.student_id, a.name, a.dept, a.tel, a.address, b.my_credit from student_acc a inner join my_class b on a.student_id = b.student_id where b.class_code = #{class_code}
+	</select>
+	
+	<!-- 여기까지 학생정보 수정 -->
+	
+	<!-- 교사정보 수정 sql문 -->
+	<insert id="teacherInsert" parameterType="accountTeacherDTO">
+		insert into teacher_acc values(#{teacher_id}, #{teacher_pw}, #{name}, #{dept},
+		#{history}, #{birthdate}, #{tel}, #{address}, #{type}, #{email})
+	</insert>
+	
+	<select id="teacherList" resultType="accountTeacherDTO">
+		select teacher_id, name, dept, tel from teacher_acc
+	</select>
+	
+	<update id="teacherUpdate" parameterType="accountTeacherDTO">
+		update teacher_acc set teacher_pw=#{teacher_pw}, dept=#{dept}, history=#{history}, 
+		birthdate=#{birthdate}, tel=#{tel}, address=#{address}, email=#{email} where teacher_id=#{teacher_id}
+	</update>
+	
+	<delete id="teacherDelete" parameterType="String">
+		delete from teacher_acc where teacher_id=#{teacher_id}
+	</delete>
+	
+	<select id="teacherGet" parameterType="String" resultType="accountTeacherDTO">
+		select * from teacher_acc where teacher_id=#{teacher_id}
+	</select>
+	
+	<update id="teacher_pw_Update" parameterType="map">
+		update teacher_acc set teacher_pw=#{teacher_pw} where teacher_id=#{teacher_id}
+	</update>
+	<!-- 여기까지 교수정보 수정 -->
+	
+	<!-- 교직원정보 수정 sql문 -->
+	<insert id="staffInsert" parameterType="accountStaffDTO">
+		insert into staff_acc values(#{staff_id}, #{staff_pw}, #{name}, #{authority_level}, 
+		sysdate, #{type}, #{birthdate}, #{tel}, #{address}, #{email})
+	</insert>
+	
+	<select id="staffList" resultType="accountStaffDTO">
+		select staff_id, name, authority_level, indate from staff_acc
+	</select>
+	
+	<update id="staffUpdate" parameterType="accountStaffDTO">
+		update staff_acc set staff_pw=#{staff_pw}, authority_level=#{authority_level}, birthdate=#{birthdate}, tel=#{tel}, address=#{address}, email=#{email}
+		where staff_id=#{staff_id}
+	</update>
+	
+	<update id="staff_pw_Update" parameterType="map">
+		update staff_acc set staff_pw=#{staff_pw} where staff_id=#{staff_id}
+	</update>
+	
+	<delete id="staffDelete" parameterType="String">
+		delete from staff_acc where staff_id=#{staff_id}
+	</delete>
+	
+	<select id="staffGet" parameterType="String" resultType="accountStaffDTO">
+		select * from staff_acc where staff_id=#{staff_id}
+	</select>
+	<!-- 여기까지 교직원정보 수정 -->
+
+</mapper>

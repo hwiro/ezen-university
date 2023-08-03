@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.univ.ezen.mapper.classMapper">
+
+	<insert id="insertClass" parameterType="classDTO">
+		insert into class values(#{class_code} || class_seq.nextval, #{class_name}, #{class_credit}, #{teacher_id}, 
+		#{teacher_name}, #{onday}, #{ontime}, #{classroom}, #{dept_id}, #{dept_name}, #{course}, #{semester})
+	</insert>
+	
+	<select id="listClass" resultType="classDTO">
+		select * from class
+	</select>
+	
+	<select id="listClass_getSem" parameterType="Map" resultType="classDTO">
+		select * from class where semester=#{semester}
+	</select>
+	
+	<select id="listClassDept" parameterType="String" resultType="classDTO">
+		select * from class where dept_id=#{searchString} or class_name=#{searchString} or class_code=#{searchString}
+	</select>
+	
+	<select id="listClassDept_getSem" parameterType="Map" resultType="classDTO">
+		select * from class where (dept_id=#{searchString} or class_name=#{searchString} or class_code=#{searchString}) and semester=#{semester}
+	</select>
+	
+	<delete id="deleteClass" parameterType="String">
+		delete from class where class_code=#{class_code}
+	</delete>
+	
+	<select id="getClass" parameterType="String" resultType="classDTO">
+		select * from class where class_code=#{class_code}
+	</select>
+
+	<select id="getClassName" parameterType="String" resultType="classDTO">
+		select * from class where class_name = #{class_name}
+	</select>
+	
+	<select id="countClass" resultType="Integer">
+		select count(*) from class
+	</select>
+	
+	<select id="countClassDist" resultType="Integer">
+		select count(*) from class where dept_id = #{dept_id}
+	</select>
+	
+	<select id="getProClass" parameterType="String" resultType="classDTO">
+		select * from class where teacher_id = #{teacher_id}
+	</select>
+
+</mapper>

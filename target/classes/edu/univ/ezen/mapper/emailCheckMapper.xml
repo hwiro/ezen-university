@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.univ.ezen.mapper.emailCheckMapper">
+
+	<insert id="insertEmailConfirm" parameterType="emailConfirmDTO">
+		insert into email_confirm values(email_confirm_seq.nextval, #{fcode}, #{bcode}, 'no', current_timestamp, #{email})
+	</insert>
+	
+	<select id="getEmailConfirm" parameterType="String" resultType="emailConfirmDTO">
+		select * from email_confirm where email=#{email} and send_time <![CDATA[>]]> (SYSDATE - (1/24/60)*10) order by num desc
+	</select>
+	
+	<select id="getEmailConfirmCheck" parameterType="map" resultType="emailConfirmDTO">
+		select * from email_confirm where (fcode=#{fcode} and bcode=#{bcode} and mail_check = 'yes') or send_time <![CDATA[<]]> (SYSDATE - (1/24/60)*10) order by num desc
+	</select>
+	
+	<update id="okEmailConfirm" parameterType="map">
+		update email_confirm set mail_check = 'yes' where fcode=#{fcode} and bcode=#{bcode}
+	</update>
+	
+	<delete id="delCheckedEmail" parameterType="map">
+		delete from email_confirm where mail_check = 'yes' and fcode=#{fcode} and bcode=#{bcode}
+	</delete>
+	
+	<select id="expiredConfirm" resultType="Integer">
+		select count(*) from email_confirm where mail_check = 'yes' or send_time <![CDATA[<]]> (SYSDATE - (1/24/60)*10)
+	</select>
+	
+	<delete id="delExpiredConfirm">
+		delete from email_confirm where mail_check = 'yes' or send_time <![CDATA[<]]> (SYSDATE - (1/24/60)*10)
+	</delete>
+
+</mapper>

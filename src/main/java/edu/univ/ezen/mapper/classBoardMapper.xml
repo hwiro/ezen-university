@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+  <mapper namespace="edu.univ.ezen.mapper.classBoardMapper">
+ <!-- board -->
+  <insert id="insertBoard" parameterType="majorBoardDTO">
+  	insert into major_board(major_board_seq.nextval, #{subject}, #{writer}, #{content}, #{regdate}, #{readcount}, #{ip})
+  </insert>
+  
+  <select id="listBoard" resultType="majorBoardDTO">
+  select * from major_board order by major_board_code desc
+  </select>
+  
+  <select id="findListBoard" parameterType="map" resultType="majorBoardDTO" >
+  	select * from  major_board where ${search} = #{searchString}
+  </select>
+  
+  <update id="updateBoard" parameterType="majorBoardDTO">
+  	update major_board set subject=#{subject}, writer=#{writer}, content=#{content}, regdate=#{regdate}, readcount=#{reg}, ip=#{ip}
+  </update>
+  
+  <delete id="deleteBoard"  parameterType="int" >
+ 		delete from major_board where major_board_code=#{ major_board_code}
+ 	</delete>
+  
+  <select id="getBoard" parameterType="int" resultType="majorBoardDTO">
+ 		select * from major_board where major_board_code = #{major_board_code}
+ 	</select>
+  
+  <update id="plusReadCount" parameterType="int">
+ 		update major_board set readcount=readcount+1 where major_board_code = #{major_board_code}
+ 	</update>
+   <!-- reboard -->
+  <insert id="insertReBoard" parameterType="majorBoardReplyDTO">
+  	insert into major_board_reply values(major_board_reply_seq.nextval, #{writer},#{content},#{regdate},#{ip},#{ref_group},#{comment_group})
+  </insert>
+  
+  <select id="listReBoard" parameterType="int" resultType="majorBoardReplyDTO"  >
+  	select * from major_board_reply where ref_group = #{ref_group} order by comment_group desc
+  </select>
+  
+  <update id="updateReBoard"  parameterType="majorBoardReplyDTO">
+  	update major_board_reply set writer=#{writer}, content=#{content}, regdate=#{regdate}, ip=#{ip}, ref_group=#{ref_group}, comment_group=#{comment_group}
+  </update>
+  
+  <delete id="deleteReBoard" parameterType="int">
+  	delete from major_board_reply where major_board_reply_code=#{ major_board_reply_code}
+  </delete>
+  
+ 
+  </mapper>

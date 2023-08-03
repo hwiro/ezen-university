@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.univ.ezen.mapper.fileDepositoryMapper">
+	<insert id="fileInsert" parameterType="fileDepositoryDTO">
+		insert into file_depository values(file_depository_seq.nextval, #{code}, #{board}, #{original_name}, #{save_name}, #{filesize})
+	</insert>	
+	
+	<delete id="fileDelete" parameterType="int" >
+		delete from file_depository where num = #{num}	
+	</delete>
+	
+	<update id="fileUpdate" parameterType="fileDepositoryDTO">
+		update file_depository set original_name = #{original_name}, save_name = #{save_name}, filesize = #{filesize} where num = #{num}
+	</update>
+	
+	<select id="getFile" parameterType="Map" resultType="fileDepositoryDTO">
+		select * from file_depository where board = #{board} and code = #{code}
+	</select> 
+	
+	
+</mapper>

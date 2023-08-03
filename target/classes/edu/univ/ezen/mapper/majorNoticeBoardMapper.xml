@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="edu.univ.ezen.mapper.majorNoticeBoardMapper">
+ 	<select id="MajorNoticeListBoard" resultType="majorNoticeBoardDTO">
+ 		select * from (select rownum rn, A.* from (select * from major_notice_board order by major_notice_board_code desc)A) where rn between #{startRow} and #{endRow} and class_code = #{class_code}
+ 	</select>
+ 	
+ 	<insert id="MajorNoticeInsertBoard" parameterType="majorNoticeBoardDTO">
+ 		insert into major_notice_board values(major_notice_board_seq.nextval, #{subject}, #{writer}, #{writer_id}, #{image}, #{content}, sysdate, 0, #{ip}, #{class_code}) 
+ 	</insert>
+ 	
+ 	<delete id="MajorNoticeDeleteBoard" parameterType="int">
+ 		delete from major_notice_board where major_notice_board_code = #{major_notice_board_code}
+ 	</delete>
+ 	
+ 	<select id="MajorNoticeGetBoard" parameterType="int" resultType="majorNoticeBoardDTO">
+ 		select * from major_notice_board where major_notice_board_code = #{major_notice_board_code}
+ 	</select>
+ 	
+ 	<update id="MajorNoticePlusReadCount" parameterType="int">
+ 		update major_notice_board set readcount=readcount+1 where major_notice_board_code = #{major_notice_board_code}
+ 	</update>
+ 	
+ 	<update id="MajorNoticeUpdateBoard" parameterType="majorNoticeBoardDTO">
+ 		update major_notice_board set subject = #{subject}, image = #{image}, content = #{content} where major_notice_board_code = #{major_notice_board_code}
+ 	</update>
+ 	
+ 	<select id="MajorNoticeFindBoard" parameterType="map" resultType="majorNoticeBoardDTO"> 
+ 		select * from major_notice_board where ${search} like #{searchString} and class_code = #{class_code} 
+ 	</select>
+ 	
+ 	<select id="MajorNoticeGetCount" resultType="int">
+ 		select count(*) from major_notice_board where class_code = #{class_code}
+ 	</select>
+ 	
+ 	<select id="MajorNoticeGetNum" resultType="int">
+ 		select max(major_notice_board_code) from major_notice_board
+ 	</select>
+ 	
+ 	
+</mapper>

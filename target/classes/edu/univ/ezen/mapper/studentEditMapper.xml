@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="edu.univ.ezen.mapper.studentEditMapper">
+ 	
+ 	<!-- 학생출결 기능 -->
+ 	<insert id="insertAttend" parameterType="studentAttendanceDTO">
+ 		insert into attendance values(attendance_seq.nextval,  #{ontime}, #{student_name}, #{attendance} )
+ 	</insert>
+ 	
+ 	<update id="updateAttend" parameterType="studentAttendanceDTO">
+ 		update attendance set ontime=#{ontime}, student_name=#{student_name}, attendacne = #{attendance} where num =#{num}
+ 	</update>
+ 	
+ 	<select id="listAttend" resultType="studentAttendanceDTO">
+ 		select * from attendance order by num desc
+ 	</select>
+ 	
+ 	<delete id="deleteAttend">
+ 		delete from attendance
+ 	</delete>
+ 	
+ 	<!-- 학생 장학정보 -->
+ 	<insert id="insertScholar" parameterType="studentScholarDTO">
+ 	insert into scholarship values(scholarship_seq.nextval, #{student_id}, #{scholar_year}, #{semester}, #{scholar_name}, #{price}, #{get_method} )
+ 	</insert>
+ 	
+ 	<select id ="listScholar" parameterType="String" resultType="studentScholarDTO">
+ 		select * from scholarship where student_id=#{student_id} order by num desc
+ 	</select>
+ 	
+ 	<select id ="findListScholar" parameterType="String" resultType="studentScholarDTO">
+ 		select * from scholarship where student_id like #{searchString}
+ 	</select>
+ 	
+ 	<update id="updateScholar" parameterType="studentScholarDTO">
+ 		update scholarship set scholar_year=#{scholar_year}, semester=#{semester}, scholar_name=#{ scholar_name}, price=#{price}, get_method=#{get_method}  where num =#{num}
+ 	</update>
+ 	
+ 	<delete id="deleteScholar">
+ 		delete from scholarship where num=#{num}
+ 	</delete>
+ 	
+ 	<select id = "getScholar" parameterType="int" resultType="studentScholarDTO">
+ 		select * from scholarship where num=#{num}
+ 	</select> 
+ 	<!-- 학생 학적 -->
+ 	<update id="updateStatus" parameterType="map">
+ 		update student_acc set status=#{status} where student_id =#{student_id}
+ 	</update>
+ 	
+ 	<select id="listStatus" resultType="accountStudentDTO">
+ 		select name, dept, grade, tel, status from student_acc
+ 	</select>
+ 	
+ 	<select id ="findListStatus" parameterType="map">
+ 		select * from student_acc where ${search} = #{searchString}
+ 	</select>
+ 	
+ 	
+ </mapper>
